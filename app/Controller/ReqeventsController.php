@@ -24,6 +24,13 @@ class ReqeventsController extends AppController {
 		$this->Reqevent->recursive = 0;
 		$this->set('reqevents', $this->Paginator->paginate());
 	}
+	
+	
+	public function spec($spec_id = null) {
+		$this->Reqevent->recursive = 0;
+		$this->set('reqevents', $this->Paginator->paginate(array('Reqevent.spec_id'=>$spec_id)));
+		$this->set('spec',$this->Reqevent->Spec->find('first',array('conditions'=>array('Spec.id'=>$spec_id))));
+	}
 
 /**
  * view method
@@ -50,12 +57,13 @@ class ReqeventsController extends AppController {
 			$this->Reqevent->create();
 			if ($this->Reqevent->save($this->request->data)) {
 				$this->Session->setFlash(__('The reqevent has been saved'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'spec',$this->request->data['Reqevent']['spec_id']));
 			} else {
 				$this->Session->setFlash(__('The reqevent could not be saved. Please, try again.'));
 			}
 		}
 		$specs = $this->Reqevent->Spec->find('list');
+		if (!empty($this->params['named']['spec_id'])) $this->set('spec_id',$this->params['named']['spec_id']);
 		$this->set(compact('specs'));
 	}
 
@@ -73,7 +81,7 @@ class ReqeventsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Reqevent->save($this->request->data)) {
 				$this->Session->setFlash(__('The reqevent has been saved'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'spec',$this->request->data['Reqevent']['spec_id']));
 			} else {
 				$this->Session->setFlash(__('The reqevent could not be saved. Please, try again.'));
 			}

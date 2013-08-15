@@ -14,6 +14,7 @@ class SpecsController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
+	public $uses = array('Spec','Freeday');
 
 /**
  * index method
@@ -22,7 +23,17 @@ class SpecsController extends AppController {
  */
 	public function index() {
 		$this->Spec->recursive = 0;
-		$this->set('specs', $this->Paginator->paginate());
+		
+		$specs = $this->Paginator->paginate();
+		
+		foreach ($specs as $i => $spec) {
+			
+			$specs[$i]['Spec']['wdays'] = $this->Freeday->countWorkingDaysInRange($spec['Spec']['start'],$spec['Spec']['end']);
+			
+		}
+		
+		
+		$this->set('specs', $specs);
 	}
 
 /**

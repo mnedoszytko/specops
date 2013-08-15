@@ -6,6 +6,7 @@
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('start'); ?></th>
 			<th><?php echo $this->Paginator->sort('end'); ?></th>
+			<th><?php echo "Dni roboczych";?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($specs as $spec): ?>
@@ -14,9 +15,11 @@
 		<td><?php echo h($spec['Spec']['name']); ?>&nbsp;</td>
 		<td><?php echo h($spec['Spec']['start']); ?>&nbsp;</td>
 		<td><?php echo h($spec['Spec']['end']); ?>&nbsp;</td>
+		<td><?php echo h($spec['Spec']['wdays']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $spec['Spec']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $spec['Spec']['id'])); ?>
+			<?php echo $this->Html->link('Program', array('controller'=>'reqevents','action' => 'spec', $spec['Spec']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $spec['Spec']['id']), null, __('Are you sure you want to delete # %s?', $spec['Spec']['id'])); ?>
 		</td>
 	</tr>

@@ -35,6 +35,14 @@ class Freeday extends AppModel {
 	);
 	
 	
+	/**
+	 * getFixedFreeDays function.
+	 * zwraca stałe dni wolne od pracy w każdym roku (wielkanoc, boże narodzenie)
+	 * @access public
+	 * @param int $year_from (default: 2006)
+	 * @param int $year_to (default: 2020)
+	 * @return void
+	 */
 	public function getFixedFreeDays($year_from = 2006,$year_to = 2020) {
 		
 		$out = array();
@@ -62,10 +70,19 @@ class Freeday extends AppModel {
 			}
 			
 		}
+		return $out;
 		
 	}
 	
 	
+	/**
+	 * getAllFreeDays function.
+	 * zwraca wszystkie wolne dni w zakresie (fixed + from db)
+	 * @access public
+	 * @param mixed $from (default: null)
+	 * @param mixed $to (default: null)
+	 * @return void
+	 */
 	public function getAllFreeDays($from = null,$to = null) {
 		
 		
@@ -79,15 +96,113 @@ class Freeday extends AppModel {
 			 
 			 $merged = array_merge($fixed,$freedates);
 			 
+			 return $this->sortDateStrings($merged);
+ 			
+ 			return $merged;
 			 
-			 usort($merged, function($a1, $a2) {
+		  
+	}
+	
+	
+	
+/**
+ * getWorkingDaysInRange function.
+ * zwroc array z dniami pracujacymi w danym zakresie
+ * @access public
+ * @param mixed $from (default: null) w formacie Y-m-d
+ * @param mixed $to (default: null) w formacie Y-m-d
+ * @return array (of Y-m-d's)
+ */
+public function getWorkingDaysInRange($from = null,$to = null) {
+	
+	$range = $this->createDateRangeArray($from,$to);
+	
+	$freedays = $this->getallFreeDays($from,$to);
+	$out = array();
+	foreach ($range as $date) {
+		
+		if (in_array($date,$freedays)) continue;
+		if (date('N', strtotime($date)) >= 6) continue; //weekend
+		$out[] = $date;
+
+		
+	}
+	$out = $this->sortDateStrings($out);
+	
+	return $out;
+	
+	
+	
+	
+}
+
+/**
+ * countWorkingDaysInRange function.
+ * policz liczbe dni pracujacych w zakresie dat
+ * @access public
+ * @param mixed $from (default: null)
+ * @param mixed $to (default: null)
+ * @return int
+ */
+public function countWorkingDaysInRange($from = null,$to = null) {
+	
+	$workingdays = $this->getWorkingDaysInRange($from,$to);
+	return count($workingdays);
+	
+	
+}
+
+
+
+/**
+ * sortDateStrings function.
+ * sortuj array z datami
+ * @access private
+ * @param mixed $array
+ * @return array
+ */
+private function sortDateStrings($array) {
+	
+	
+	
+	 usort($array, function($a1, $a2) {
 				 $v1 = strtotime($a1);
 				 $v2 = strtotime($a2);
 				 return $v1 - $v2; // $v2 - $v1 to reverse direction
  			});
-			 
-		  
-	}
+		return $array;
+	
+}
+
+
+
+
+/**
+ * createDateRangeArray function.
+ * zwroc macierz z y-m-d dla zakresu day
+ * @access private
+ * @param mixed $start Y-m-d
+ * @param mixed $end Y-m-d
+ * @return void
+ */
+private function createDateRangeArray($start, $end) {
+// Modified by JJ Geewax 
+
+$range = array();
+
+if (is_string($start) === true) $start = strtotime($start);
+if (is_string($end) === true ) $end = strtotime($end);
+
+if ($start > $end) return createDateRangeArray($end, $start);
+
+do {
+$range[] = date('Y-m-d', $start);
+$start = strtotime("+ 1 day", $start);
+}
+while($start < $end);
+
+return $range;
+}
 	
 	
 }

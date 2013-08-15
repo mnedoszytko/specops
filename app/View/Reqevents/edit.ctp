@@ -6,7 +6,7 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('spec_id');
 		echo $this->Form->input('name');
-		echo $this->Form->input('type');
+		echo $this->Form->input('type',array('options'=>Configure::read('Events.types')));
 		echo $this->Form->input('days');
 	?>
 	</fieldset>

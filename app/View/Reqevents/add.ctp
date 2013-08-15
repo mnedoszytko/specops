@@ -3,9 +3,13 @@
 	<fieldset>
 		<legend><?php echo __('Add Reqevent'); ?></legend>
 	<?php
+	if (!empty($spec_id)) {
+		echo $this->Form->hidden('spec_id',array('value'=>$spec_id));
+	} else {
 		echo $this->Form->input('spec_id');
+	}
 		echo $this->Form->input('name');
-		echo $this->Form->input('type');
+		echo $this->Form->input('type',array('type'=>'select','options'=>Configure::read('Events.types')));
 		echo $this->Form->input('days');
 	?>
 	</fieldset>

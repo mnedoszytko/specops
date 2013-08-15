@@ -25,8 +25,8 @@ class Reqevent extends AppModel {
 			),
 		),
 		'type' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
+			'notempty' => array(
+				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
