@@ -4,8 +4,7 @@
 		<legend><?php echo __('Add Spec'); ?></legend>
 	<?php
 		echo $this->Form->input('name');
-		echo $this->Form->input('start');
-		echo $this->Form->input('end');
+	
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

@@ -13,6 +13,11 @@ class Reqevent extends AppModel {
  *
  * @var array
  */
+
+	public $virtualFields = array(
+
+		);
+
 	public $validate = array(
 		'name' => array(
 			'notempty' => array(
@@ -73,5 +78,38 @@ class Reqevent extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+	public function listForSpecId($spec_id = null) {
+
+		$reqevents = $this->find('list',array(
+
+			'fields' => array(
+					'Reqevent.id','Reqevent.name','Reqevent.type'
+			),
+			'conditions' => array(
+			'Reqevent.spec_id' => $spec_id
+			)
+
+		));
+
+//$this->log($reqevents,LOG_DEBUG);
+
+		// if (!empty($requevents)) {
+
+		// 	$event_types = Configure::read('Events.types');
+
+		// 	foreach ($reqevents as $k => $re) {
+		// 		$reqevents[$k]['name'] = $event_types[$re['type']]." - ".$re['name'];
+
+		// 	}
+
+
+
+		// }
+
+		
+		return $reqevents;
+
+	}
 
 }

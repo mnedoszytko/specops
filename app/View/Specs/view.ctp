@@ -11,16 +11,7 @@
 			<?php echo h($spec['Spec']['name']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Start'); ?></dt>
-		<dd>
-			<?php echo h($spec['Spec']['start']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('End'); ?></dt>
-		<dd>
-			<?php echo h($spec['Spec']['end']); ?>
-			&nbsp;
-		</dd>
+		
 	</dl>
 </div>
 <div class="actions">

@@ -1,21 +1,15 @@
 <div class="specs index">
-	<h2><?php echo __('Specs'); ?></h2>
+	<h2>Specjalizacje</h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('start'); ?></th>
-			<th><?php echo $this->Paginator->sort('end'); ?></th>
-			<th><?php echo "Dni roboczych";?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($specs as $spec): ?>
 	<tr>
 		<td><?php echo h($spec['Spec']['id']); ?>&nbsp;</td>
 		<td><?php echo h($spec['Spec']['name']); ?>&nbsp;</td>
-		<td><?php echo h($spec['Spec']['start']); ?>&nbsp;</td>
-		<td><?php echo h($spec['Spec']['end']); ?>&nbsp;</td>
-		<td><?php echo h($spec['Spec']['wdays']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $spec['Spec']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $spec['Spec']['id'])); ?>
@@ -42,6 +36,7 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
+		<li><?php echo $this->Html->link('Plany', array('controller'=>'schedules','action' => 'index')); ?></li>
 		<li><?php echo $this->Html->link(__('New Spec'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Reqevents'), array('controller' => 'reqevents', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Reqevent'), array('controller' => 'reqevents', 'action' => 'add')); ?> </li>

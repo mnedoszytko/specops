@@ -3,19 +3,23 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
+			<th><?php echo $this->Paginator->sort('schedule_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('reqevent_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('starts'); ?></th>
-			<th><?php echo $this->Paginator->sort('ends'); ?></th>
+			<th><?php echo $this->Paginator->sort('start'); ?></th>
+			<th><?php echo $this->Paginator->sort('end'); ?></th>
+			<th><?php echo $this->Paginator->sort('completed'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($events as $event): ?>
 	<tr>
 		<td><?php echo h($event['Event']['id']); ?>&nbsp;</td>
+		<td><?php echo h($event['Event']['schedule_id']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($event['Reqevent']['name'], array('controller' => 'reqevents', 'action' => 'view', $event['Reqevent']['id'])); ?>
 		</td>
-		<td><?php echo h($event['Event']['starts']); ?>&nbsp;</td>
-		<td><?php echo h($event['Event']['ends']); ?>&nbsp;</td>
+		<td><?php echo h($event['Event']['start']); ?>&nbsp;</td>
+		<td><?php echo h($event['Event']['end']); ?>&nbsp;</td>
+		<td><?php echo h($event['Event']['completed']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $event['Event']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $event['Event']['id'])); ?>

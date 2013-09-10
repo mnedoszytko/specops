@@ -6,19 +6,29 @@
 			<?php echo h($event['Event']['id']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Schedule Id'); ?></dt>
+		<dd>
+			<?php echo h($event['Event']['schedule_id']); ?>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('Reqevent'); ?></dt>
 		<dd>
 			<?php echo $this->Html->link($event['Reqevent']['name'], array('controller' => 'reqevents', 'action' => 'view', $event['Reqevent']['id'])); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Starts'); ?></dt>
+		<dt><?php echo __('Start'); ?></dt>
 		<dd>
-			<?php echo h($event['Event']['starts']); ?>
+			<?php echo h($event['Event']['start']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Ends'); ?></dt>
+		<dt><?php echo __('End'); ?></dt>
 		<dd>
-			<?php echo h($event['Event']['ends']); ?>
+			<?php echo h($event['Event']['end']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Completed'); ?></dt>
+		<dd>
+			<?php echo h($event['Event']['completed']); ?>
 			&nbsp;
 		</dd>
 	</dl>

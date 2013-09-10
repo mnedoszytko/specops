@@ -3,9 +3,11 @@
 	<fieldset>
 		<legend><?php echo __('Add Event'); ?></legend>
 	<?php
+		echo $this->Form->input('schedule_id');
 		echo $this->Form->input('reqevent_id');
-		echo $this->Form->input('starts');
-		echo $this->Form->input('ends');
+		echo $this->Form->input('start');
+		echo $this->Form->input('end');
+		echo $this->Form->input('completed');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
