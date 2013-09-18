@@ -1,3 +1,10 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+     $.datepicker.regional['pl'];
+      $(".datepicker").datepicker();
+     });
+</script>
+
 <div class="events form">
 <?php echo $this->Form->create('Event'); ?>
 	<fieldset>
@@ -6,8 +13,8 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('schedule_id');
 		echo $this->Form->input('reqevent_id');
-		echo $this->Form->input('start');
-		echo $this->Form->input('end');
+		echo $this->Form->input('start',array('type'=>'text','class'=>'datepicker'));
+		echo $this->Form->input('end',array('type'=>'text','class'=>'datepicker'));
 		echo $this->Form->input('completed');
 	?>
 	</fieldset>

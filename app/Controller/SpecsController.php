@@ -21,13 +21,9 @@ class SpecsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Spec->recursive = 0;
+		$this->Spec->recursive = 1;
 		
-		$specs = $this->Paginator->paginate();
-		
-		
-		
-		
+		$specs = $this->Paginator->paginate();		
 		$this->set('specs', $specs);
 	}
 

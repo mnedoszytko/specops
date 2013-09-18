@@ -4,12 +4,15 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
+			<th>Dni</th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($specs as $spec): ?>
 	<tr>
 		<td><?php echo h($spec['Spec']['id']); ?>&nbsp;</td>
 		<td><?php echo h($spec['Spec']['name']); ?>&nbsp;</td>
+
+		<td><?php echo $spec['Spec']['total_re_days']." (Staże:".$spec['Spec']['total_re_s_days']."/Kursy:".$spec['Spec']['total_re_k_days'].")";?>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $spec['Spec']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $spec['Spec']['id'])); ?>

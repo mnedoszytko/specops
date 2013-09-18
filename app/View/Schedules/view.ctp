@@ -12,8 +12,6 @@ $event_types = Configure::read('Events.types');
 <div class="schedules view">
 <h2><?=$schedule['Schedule']['name']?> - <?=$schedule['Spec']['name']?></h2>
 	<dl>
-		
-		
 		<dt><?php echo __('Name'); ?></dt>
 		<dd>
 			<?php echo h($schedule['Schedule']['name']); ?>
@@ -50,12 +48,45 @@ $event_types = Configure::read('Events.types');
 <th>Typ</th>
 <th>Nazwa</th>
 <th>Dni</th>
-
+<th>Zrobione</th>
+<th>Konflikty</th>
+<th>Akcje</th>
 <? foreach ($schedule['Spec']['Reqevent'] as $re) { ?>
 <tr>
 <td><?=$event_types[$re['type']]?></td>
 <td><?=$re['name']?></td>
 <td><?=$re['days']?></td>
+<td>
+<?
+if (!empty($re['Event'])) {  ?>
+<ul>
+	<?
+	$total = 0;
+	foreach ($re['Event'] as $event) { 
+		$total += $event['working_days'];
+	 ?>
+		<li><?=$event['start']?> (<?=$event['working_days']?> dni)</li>
+	<? 
+
+	}
+	if (count($re['Event']) > 1) { 
+?>
+<li>Suma: <?=$total?></li>
+<?
+
+	}
+	?>
+</ul>
+	<?
+}
+?>
+</td>
+<td>
+	<? if ($event['conflicts'] > 0) { ?>
+	<?=$this->Html->link('Konflikt!',array('controller'=>'events','action'=>'conflict',$event['id']));?>
+	<? } ?>
+</td>	
+<td><?=$this->Html->link('Uzupełnij',array('controller'=>'schedules','action'=>'matchreqevent',$schedule['Schedule']['id'],$re['id']));?></td>
 
 </tr>
 <? } ?>

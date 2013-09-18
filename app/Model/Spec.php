@@ -75,4 +75,43 @@ class Spec extends AppModel {
 		)
 	);
 
+	public function afterFind($results,$primary = false) {
+
+
+			if (!empty($results)) {
+				if (empty($results['Spec'])) {
+
+					foreach ($results as $i => $result) {
+
+							if (!empty($result['Spec'])) {
+								$total_re_days = 0;
+								$total_re_k_days = 0;
+								$total_re_s_days = 0;
+								if (!empty($result['Reqevent']) && is_array($result['Reqevent'])) {
+
+
+									foreach ($result['Reqevent'] as $re) {
+										$total_re_days += $re['days'];
+										if ($re['type'] == 'k') $total_re_k_days += $re['days'];
+										if ($re['type'] == 's') $total_re_s_days += $re['days'];											
+									}
+									$results[$i]['Spec']['total_re_days'] = $total_re_days;
+									$results[$i]['Spec']['total_re_k_days'] = $total_re_k_days;
+									$results[$i]['Spec']['total_re_s_days'] = $total_re_s_days;
+								}
+							}
+
+					}
+
+				}
+
+			}
+
+			return $results;
+
+
+	}
+
+
+
 }

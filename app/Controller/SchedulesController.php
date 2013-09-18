@@ -32,6 +32,10 @@ class SchedulesController extends AppController {
 		$this->set('schedules', $schedules);
 	}
 
+
+
+
+
 /**
  * view method
  *
@@ -46,11 +50,17 @@ class SchedulesController extends AppController {
 		$options = array(
 			'contain' => array(
 					'Spec' => array(
-							'Reqevent'
+							'Reqevent' => array(
+								'Event' => array(
+										'conditions' => array('Event.schedule_id'=>$id)
+									)
+								)
 						)
 				),
 
 			'conditions' => array('Schedule.' . $this->Schedule->primaryKey => $id));
+
+
 
 		$schedule = $this->Schedule->find('first', $options);
 		$schedule['Schedule']['wdays'] = $this->Freeday->countWorkingDaysInRange($schedule['Schedule']['start'],$schedule['Schedule']['end']);
@@ -58,6 +68,34 @@ class SchedulesController extends AppController {
 		$reqevents = $this->Schedule->Spec->Reqevent->listForSpecId($schedule['Schedule']['spec_id']);
 		$this->set('reqevents',$reqevents);
 		
+	}
+
+
+	public function ical($id = null) {
+if (!$this->Schedule->exists($id)) {
+			throw new NotFoundException(__('Invalid schedule'));
+		}
+
+		$schedule = $this->Schedule->find('first',array(
+
+				'contain' => array(
+						'Spec' => array('fields'=>array('name')),
+						'Event' => array(
+								'fields' => array('start','end','reqevent_id'),
+	 							'Reqevent',
+
+
+							)
+
+					)
+
+
+			));
+		$this->layout = 'ajax';
+		$this->set('schedule',$schedule);
+
+
+
 	}
 
 /**
@@ -125,4 +163,23 @@ class SchedulesController extends AppController {
 		$this->Session->setFlash(__('Schedule was not deleted'));
 		return $this->redirect(array('action' => 'index'));
 	}
+
+	public function matchreqevent($schedule_id = null,$reqevent_id = null) {
+
+		if (empty($schedule_id) || empty($reqevent_id)) {
+			throw new NotFoundException("Invalid reqevent & schedule");
+		}
+
+		$this->set('schedule',$this->Schedule->find('first',array('conditions'=>array('Schedule.id'=>$schedule_id))));
+
+		$this->set('reqevent',$this->Schedule->Event->Reqevent->find('first',array('conditions'=>array('Reqevent.id'=>$reqevent_id))));
+
+		$this->set('events',$this->Schedule->Event->find('all',array('conditions'=>array('Event.schedule_id'=>$schedule_id,'Event.reqevent_id'=>$reqevent_id))));
+
+
+
+
+
+	}
+
 }

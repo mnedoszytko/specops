@@ -2,7 +2,7 @@
 	<h2><?php echo __('Events'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
+			
 			<th><?php echo $this->Paginator->sort('schedule_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('reqevent_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('start'); ?></th>
@@ -12,8 +12,7 @@
 	</tr>
 	<?php foreach ($events as $event): ?>
 	<tr>
-		<td><?php echo h($event['Event']['id']); ?>&nbsp;</td>
-		<td><?php echo h($event['Event']['schedule_id']); ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($event['Schedule']['name'],array('controller'=>'schedules','action'=>'view',$event['Schedule']['id'])); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($event['Reqevent']['name'], array('controller' => 'reqevents', 'action' => 'view', $event['Reqevent']['id'])); ?>
 		</td>

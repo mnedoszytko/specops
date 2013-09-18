@@ -59,12 +59,17 @@ class Freeday extends AppModel {
 				'1.01',
 				'1.05',
 				'3.05',
+				'15.08',//WNMP
 				'1.11',
 				'11.11',
 				'25.12',
 				'26.12',
 				'31.12'
 			);
+			if ($y >= 2011) {
+				//swieto trzech kroli
+				$fixeddates[] = '6.01';
+			}
 			foreach ($fixeddates as $date) {			
 				$out[] = date("Y-m-d",strtotime("$date.$y"));
 			}
@@ -116,7 +121,6 @@ class Freeday extends AppModel {
 public function getWorkingDaysInRange($from = null,$to = null) {
 	
 	$range = $this->createDateRangeArray($from,$to);
-	
 	$freedays = $this->getallFreeDays($from,$to);
 	$out = array();
 	foreach ($range as $date) {
@@ -193,13 +197,13 @@ $range = array();
 if (is_string($start) === true) $start = strtotime($start);
 if (is_string($end) === true ) $end = strtotime($end);
 
-if ($start > $end) return createDateRangeArray($end, $start);
+if ($start > $end) return $this->createDateRangeArray($end, $start);
 
 do {
 $range[] = date('Y-m-d', $start);
 $start = strtotime("+ 1 day", $start);
 }
-while($start < $end);
+while($start <= $end);
 
 return $range;
 }

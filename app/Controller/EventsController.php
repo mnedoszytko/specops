@@ -50,6 +50,7 @@ class EventsController extends AppController {
 			$this->Event->create();
 			if ($this->Event->save($this->request->data)) {
 				$this->Session->setFlash(__('The event has been saved'));
+				if ($this->request->data['Event']['redirect_to_referer']) $this->redirect($this->referer());
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The event could not be saved. Please, try again.'));
@@ -82,7 +83,8 @@ class EventsController extends AppController {
 			$this->request->data = $this->Event->find('first', $options);
 		}
 		$reqevents = $this->Event->Reqevent->find('list');
-		$this->set(compact('reqevents'));
+		$schedules = $this->Event->Schedule->find('list');
+		$this->set(compact('reqevents','schedules'));
 	}
 
 /**
@@ -104,5 +106,20 @@ class EventsController extends AppController {
 		}
 		$this->Session->setFlash(__('Event was not deleted'));
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function conflict($id = null) {
+	if (!$this->Event->exists($id)) {
+			throw new NotFoundException(__('Invalid event'));
+		}
+$options = array('conditions' => array('Event.' . $this->Event->primaryKey => $id));
+$event =  $this->Event->find('first', $options);
+		$this->set('event',$event);
+
+
+		$conflicts = $this->Event->getConflicts($event);
+		$this->set('conflicts',$conflicts);
+
+
 	}
 }
